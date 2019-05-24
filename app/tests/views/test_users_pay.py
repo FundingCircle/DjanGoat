@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
+
 from django.test import TestCase, RequestFactory, Client
 from django.urls import reverse
 from django.utils import timezone
@@ -97,12 +97,13 @@ class UserPayUpdateDDInfo(TestCase, AuthRouteTestingWithKwargs):
     def test_route_post(self):
         form_args = {"bankAccNumInput": "12345", "bankRouteNumInput": "54321", "percentDepositInput": 20}
         response = self.client.post(reverse(self.route_name, kwargs=self.kwargs), form_args, follow=True)
+
         self.assertEqual(response.status_code, self.responses['POST'])
         pay_objects = Pay.objects.filter(user=self.mixin_model)
         was_pay_added = False
         pay_object = None
         for pay in pay_objects:
-            if pay.decrypt_bank_num() == "12345":
+            if pay.decrypt_bank_num().decode() == "12345":
                 was_pay_added = True
                 pay_object = pay
 
@@ -163,10 +164,10 @@ class UserPayDecryptBankInfo(TestCase, AuthRouteTestingWithKwargs):
                                  created_at=timezone.now(),
                                  updated_at=timezone.now())
 
-        form_args = {"account_number": pay.bank_account_num}
+        form_args = {"account_number": pay.bank_account_num.decode()}
         response = self.client.post(reverse(self.route_name, kwargs=self.kwargs), form_args, follow=True)
         self.assertEqual(response.status_code, self.responses['POST'])
-        self.assertEqual(response.content, "12345")
+        self.assertEqual(response.content.decode(), "12345")
 
 
 class UserShowPayRoutingAndHttpTests(TestCase, AuthRouteTestingWithKwargs):

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from __future__ import unicode_literals
+
 from django.test import TestCase, RequestFactory, Client
 from django.urls import reverse
 from app.tests.mixins import AuthRouteTestingWithKwargs
@@ -89,7 +89,7 @@ class UploadRoutingAndHttpTests(TestCase, AuthRouteTestingWithKwargs):
                                        add_messages_middleware=AuthRouteTestingWithKwargs.add_messages_middleware,
                                        views=sessions)
 
-        with open(BASE_DIR + '/public/docs/Dental_n_Stuff.pdf') as fp:
+        with open(BASE_DIR + '/public/docs/Dental_n_Stuff.pdf', 'r+b') as fp:
             response = self.client.post(reverse('app:upload_benefit_form'),
                                         {'myfile': fp, 'backup': False},
                                         follow=True)
@@ -154,7 +154,7 @@ class DownloadBenefitFormsRoutingAndHttpTests(TestCase,
         response = self.client.get(
             reverse(self.route_name) + '/?name=public/docs/Dental_n_Stuff.pdf',
             follow=True)
-        self.assertEquals(response['Content-Disposition'],
+        self.assertEqual(response['Content-Disposition'],
                           'attachment; filename=%s' \
                           % os.path.basename('public/docs/Dental_n_Stuff.pdf'))
 
@@ -170,6 +170,6 @@ class DownloadBenefitFormsRoutingAndHttpTests(TestCase,
         response = self.client.get(
             reverse(self.route_name) + '/?name=public/docs/Health_n_Stuff.pdf',
             follow=True)
-        self.assertEquals(response['Content-Disposition'],
+        self.assertEqual(response['Content-Disposition'],
                           'attachment; filename=%s' \
                           % os.path.basename('public/docs/Health_n_Stuff.pdf'))
