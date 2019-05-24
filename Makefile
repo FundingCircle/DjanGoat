@@ -1,4 +1,4 @@
-.PHONY: install run lint test clean
+.PHONY: install run test clean
 deafult: clean install run
 
 install:
@@ -22,12 +22,6 @@ clean:
 	rm -f db.sqlite3
 	rm -rf env/
 	rm -rf src/
-
-lint:
-	(\
-		source env/bin/activate; \
-		pylint app pygoat; \
-	)
 
 test:
 	coverage run manage.py test app

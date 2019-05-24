@@ -20,11 +20,11 @@ If you get an error about not having pip, do this:
     sudo python get-pip.py
 ```
 
-### Initial Setup
+### Detailed Setup
 
 Requirements:
 
- - Python 2.7
+ - Python 3.7
  - Pip
 
 To set it all up and activate your virtualenv:
@@ -54,13 +54,6 @@ If something went wrong and you want to start fresh:
 ### Email
 
 Emails sent by the app will print to the console controlling the process, both headers and body.
-
-### Linting
-
-To run `pylint` using the provided `.pylintrc` configuration file:
-```
-    make lint
-```
 
 ## Tutorial
 Tutorial information on the various vulnerabilities in this application are [here](docs/home.md).
